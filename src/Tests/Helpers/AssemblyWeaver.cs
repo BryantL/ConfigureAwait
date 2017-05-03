@@ -25,7 +25,7 @@ public static class AssemblyWeaver
             File.Copy(beforePdbPath, afterPdbPath, true);
 
         var assemblyResolver = new MockAssemblyResolver();
-        var readerParameters = new ReaderParameters();
+        var readerParameters = new ReaderParameters {InMemory = true};
         var writerParameters = new WriterParameters();
 
         if (File.Exists(afterPdbPath))

@@ -23,7 +23,7 @@ namespace ConfigureAwait
                 return false;
 
             return typeDefinition.Interfaces
-                .Any(x => x.FullName == "System.Runtime.CompilerServices.IAsyncStateMachine");
+                .Any(x => x.InterfaceType.FullName == "System.Runtime.CompilerServices.IAsyncStateMachine");
         }
 
         public static bool IsCompilerGenerated(this ICustomAttributeProvider provider)
@@ -45,29 +45,6 @@ namespace ConfigureAwait
         {
             foreach (var instruction in instructions.Reverse())
                 processor.InsertAfter(target, instruction);
-        }
-
-        public static void HideLineFromDebugger(this Instruction i, SequencePoint seqPoint)
-        {
-            if (seqPoint == null)
-                return;
-
-            HideLineFromDebugger(i, seqPoint.Document);
-        }
-
-        public static void HideLineFromDebugger(this Instruction i, Document doc)
-        {
-            if (doc == null)
-                return;
-
-            // This tells the debugger to ignore and step through
-            // all the following instructions to the next instruction
-            // with a valid SequencePoint. That way IL can be hidden from
-            // the Debugger. See
-            // http://blogs.msdn.com/b/abhinaba/archive/2005/10/10/479016.aspx
-            i.SequencePoint = new SequencePoint(doc);
-            i.SequencePoint.StartLine = 0xfeefee;
-            i.SequencePoint.EndLine = 0xfeefee;
         }
 
         public static TypeDefinition GetAsyncStateMachineType(this ICustomAttributeProvider provider)

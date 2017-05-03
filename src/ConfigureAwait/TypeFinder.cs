@@ -12,7 +12,7 @@ namespace ConfigureAwait
         public TypeFinder(IAssemblyResolver assemblyResolver, ModuleDefinition moduleDefinition)
         {
             this.moduleDefinition = moduleDefinition;
-            var msCoreLibDefinition = assemblyResolver.Resolve("mscorlib");
+            var msCoreLibDefinition = assemblyResolver.Resolve(AssemblyNameReference.Parse("mscorlib"));
             msCoreTypes = msCoreLibDefinition.MainModule.Types;
         }
 
